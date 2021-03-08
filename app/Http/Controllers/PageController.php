@@ -18,4 +18,4 @@ class PageController extends Controller
     {
         return view('post', ['post' => $post]);
     }
-}
+} 
