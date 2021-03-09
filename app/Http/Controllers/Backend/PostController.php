@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
-use App\post;
+use App\Post;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
@@ -27,7 +27,7 @@ class PostController extends Controller
      */
     public function create()
     {
-        //
+        return view('posts.create');
     }
 
     /**
@@ -38,7 +38,19 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+         //Salvar
+         $posts = Post::create([
+            'user_id' => auth()->user()->id
+        ] + $request->all());
+
+        //image
+        if ($request->file('file')) {
+            $posts->image = $request->file('file')->store('posts', 'public');
+            $posts->save();
+        }
+
+        //retornar
+        return back()->with('status', 'creado con éxito');
     }
 
     /**
